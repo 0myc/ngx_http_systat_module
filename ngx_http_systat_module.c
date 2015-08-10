@@ -8,6 +8,7 @@
 #include <nginx.h>
 
 #include <ifaddrs.h>
+#include <net/if.h>
 
 
 #if (NGX_LINUX)
@@ -17,15 +18,8 @@
 #define ngx_get_ifa_tx_bytes(ifa) \
     ((uint64_t)((struct net_device_stats *)ifa->ifa_data)->tx_bytes)
 
-#elif (NGX_FREEBSD) 
+#elif (NGX_FREEBSD) || (NGX_DARWIN)
 
-#define NGX_AF_LINK     AF_LINK
-#define ngx_get_ifa_tx_bytes(ifa) \
-    ((uint64_t)((struct if_data *)ifa->ifa_data)->ifi_obytes)
-
-#elif (NGX_DARWIN)
-
-#include <net/if.h>
 #define NGX_AF_LINK     AF_LINK
 #define ngx_get_ifa_tx_bytes(ifa) \
     ((uint64_t)((struct if_data *)ifa->ifa_data)->ifi_obytes)
