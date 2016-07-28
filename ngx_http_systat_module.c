@@ -12,11 +12,11 @@
 
 
 #if (NGX_LINUX)
-#include <linux/netdevice.h>
+#include <linux/if_link.h>
 
 #define NGX_AF_LINK     AF_PACKET
 #define ngx_get_ifa_tx_bytes(ifa) \
-    ((uint64_t)((struct net_device_stats *)ifa->ifa_data)->tx_bytes)
+    ((uint64_t)((struct rtnl_link_stats *)ifa->ifa_data)->tx_bytes)
 
 #elif (NGX_FREEBSD) || (NGX_DARWIN)
 
